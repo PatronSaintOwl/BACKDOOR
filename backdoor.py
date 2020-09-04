@@ -26,8 +26,7 @@ class Backdoor:
         while True:
             try:
                 pack_data += self.s.recv(1024)
-                here_out = json.loads(pack_data)
-                return here_out
+                return json.loads(pack_data)
             except ValueError:
                 continue
 
