@@ -13,7 +13,8 @@ Before Use Edit line 66 (listner.py) and line 70 (backdoor.py) with ur IP addres
 **Both Attacker and victim machine must be in same network.
 
 Deploy the backdoor.py file in the Victim machine and use listener.py from your machine.
-
+ *** READ make_persistent.txt to make this payload persistent.
+ 
 NOTE: The Victim machine must hv required modules and python interpreter.
 
 However if your Deploying the backdoor as .exe package then no need of python interpreter in Victim machine
